@@ -2,6 +2,7 @@ import {describe,it,expect} from 'vitest';
 import {events} from '../src/data';
 import {filterEvents,initialFilters,dateRange,distance} from '../src/search';
 describe('행사 검색',()=>{
+ it('예정만 보기는 오늘 시작한 행사와 이미 진행 중인 행사를 제외한다',()=>{const result=filterEvents(events,{...initialFilters,region:'11',upcomingOnly:true},null,[],'2026-10-31');expect(result.map(event=>event.id)).toEqual(['demo-11-2'])});
  it('17개 시도의 샘플 51건을 제공한다',()=>{expect(events).toHaveLength(51);expect(new Set(events.map(e=>e.region)).size).toBe(17)});
  it('지역, 카테고리, 무료, 날짜 조건을 동시에 적용한다',()=>{const result=filterEvents(events,{...initialFilters,region:'34',categories:['가족 체험'],price:'free',start:'2026-10-31',end:'2026-11-01'},null,[]);expect(result.map(e=>e.id)).toEqual(['demo-34-0'])});
  it('시군구 이름의 공백 차이를 정규화한다',()=>{expect(filterEvents(events,{...initialFilters,region:'34',district:'천안시동남구'},null,[])).toHaveLength(3)});
